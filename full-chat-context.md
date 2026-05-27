@@ -35,9 +35,9 @@ future AI can pick up exactly where we left off.
 |---|---|
 | Direction | Short |
 | Lot size | 0.01 |
-| Entry | 3421.89 |
-| Stop Loss | 3429.04 (7.15 pts above entry) |
-| Take Profit | 3401.27 (20.62 pts below entry) |
+| Entry | 4421.89 |
+| Stop Loss | 4429.04 (7.15 pts above entry) |
+| Take Profit | 4401.27 (20.62 pts below entry) |
 | Planned RR | 2.88R |
 | Result | Loss (-$8.14 = full SL hit) |
 | RR achieved | -1R |
@@ -53,14 +53,20 @@ future AI can pick up exactly where we left off.
 ### Screenshot provided
 
 - 1m chart at time of entry (TradingView, 27 May 2026 19:19 UTC+5:30)
-- Shows: price bounced ~19.5 pts off 3402.50 low → entry was selling into a bullish bounce
+- Shows: price bounced ~19.5 pts off 4402.50 low → entry was selling into a bullish bounce
 
 ### What is MISSING (trade cannot be committed without these)
 
 1. **15m chart** at time of entry — must show the FVG used as context
-2. **1D chart** showing the swing low that was broken (user attempted to send TradingView link `https://www.tradingview.com/x/zeAgkaPI/` but it cannot be fetched — needs screenshot pasted directly)
+2. **1D chart** showing the swing low that was broken (user attempted to send TradingView link `https://www.tradingview.com/x/zeAgkaPI/` but it cannot be fetched — needs screenshot pasted directly as image)
 3. **Account size** — needed to calculate risk %
 4. **Session confirmation** — assumed NY AM but not explicitly confirmed
+
+### Attempts to provide HTF evidence
+
+- User sent TradingView snapshot URL for 1D chart — AI tools cannot render/fetch these links.
+- User was told: must drag/paste screenshots as images, not share TV links.
+- As of end of session, HTF evidence still not provided.
 
 ### Preliminary execution assessment
 
@@ -140,3 +146,32 @@ TradingView snapshot links (tradingview.com/x/...) **do not work** — must past
 3. Check if `20260527-XAUUSD-01` has been committed — if not, it's still pending (ask user for missing HTF screenshots)
 4. Check `analytics/ledger.csv` row count to know how many trades exist
 5. Continue the system — do not rebuild anything
+
+---
+
+## Session Conversation Log (key exchanges)
+
+### Exchange 1: User submitted first trade
+- Provided: 1m screenshot, entry/SL/TP, lot size, result, thesis, psychology
+- AI analyzed 1m chart, verified math (7.15pt SL = $8.14 loss on 0.01 lot ✓)
+- AI identified: entry was selling into a bullish bounce — structurally aggressive
+- AI asked for: 15m chart, 1D chart, account size, session confirmation
+
+### Exchange 2: User asked how to send charts
+- AI provided screenshot workflow guidance (drag/paste, Win+Shift+S, multi-pane TradingView layout)
+- AI recommended 3-pane layout (1D + 15m + 1m) for efficiency
+
+### Exchange 3: User sent TradingView snapshot URL for 1D
+- URL: `https://www.tradingview.com/x/zeAgkaPI/`
+- AI attempted to fetch — failed (TradingView renders dynamic images, not fetchable)
+- AI explained: must paste/drag actual image files, TV links don't work
+
+### Exchange 4: User requested context files be created
+- AI created `full-chat-context.md` and `new-ai-prompt.md`
+- Pushed to branch `add/context-and-prompt`
+- PR #2 created: https://github.com/yashsharmamails-jpg/journal/pull/2
+
+### Status at session end
+- Trade `20260527-XAUUSD-01` remains PENDING — waiting for HTF screenshots as images
+- 0 trades committed to repo
+- Journal infrastructure fully built and ready
