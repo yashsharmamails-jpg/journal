@@ -9,8 +9,10 @@ future AI can pick up exactly where we left off.
 
 - **Date:** 27 May 2026
 - **Repo branch:** `add/context-and-prompt`
-- **Trades logged to repo:** 1
-- **Latest trade:** `20260527-XAUUSD-01` — COMMITTED ✅
+- **Trades logged to repo:** 2
+- **Latest trade:** `20260527-XAUUSD-02` — COMMITTED ✅
+- **Daily P&L:** -2.00R (-$19.84)
+- **Status:** Done for the day (user stopped after 2 losses — disciplined)
 
 ---
 
@@ -18,66 +20,64 @@ future AI can pick up exactly where we left off.
 
 | Component | Status |
 |---|---|
-| `trades/20260527-XAUUSD-01.md` | ✅ Committed (full 9-section analysis) |
-| `analytics/ledger.csv` | 1 row (header + 1 trade) |
-| `analytics/performance.md` | Updated with n=1 metrics |
-| `coaching/lessons.md` | Populated with first trade observations |
+| `trades/20260527-XAUUSD-01.md` | ✅ Committed |
+| `trades/20260527-XAUUSD-02.md` | ✅ Committed |
+| `analytics/ledger.csv` | 2 rows (header + 2 trades) |
+| `analytics/performance.md` | Updated with n=2 metrics |
+| `coaching/lessons.md` | Populated with patterns from both trades |
 | `templates/trade_template.md` | 9-section template locked |
-| `screenshots/` | Empty (`.gitkeep` only — screenshots referenced in trade file text) |
+| `screenshots/` | Empty — screenshots described in trade files |
 
 ---
 
-## Committed Trade: 20260527-XAUUSD-01
+## Trade Log
 
-### Final verified data
+### Trade #1: 20260527-XAUUSD-01
 
 | Field | Value |
 |---|---|
 | Direction | Short |
-| Lot size | 0.01 |
 | Entry | 4421.89 |
-| Stop Loss | 4429.04 (7.15 pts above entry) |
-| Take Profit | 4401.27 (20.62 pts below entry) |
-| Planned RR | 2.88R |
-| Result | Loss (-$8.14 = full SL hit) |
-| RR achieved | -1R |
-| Account size | $3,000 |
-| Risk % | 0.27% |
-| Session | NY AM (19:17 IST = 09:47 ET) |
-| Thesis | 1D bearish structure (selling from 5,500 ATH) + 15m FVG in 4,420–4,430 zone |
-| Setup type | 15m FVG short (bearish continuation) |
-| Confirmation used | 15m FVG + 1D bearish structure |
+| SL | 4429.04 |
+| TP | 4401.27 |
+| RR | 2.88R planned, -1R achieved |
+| Lot | 0.01 |
+| Risk | 0.27% |
+| Result | LOSS (-$8.14) |
+| Session | NY AM (19:17 IST) |
 | Rating | 4/10 |
+| Key issue | FOMO entry — no 1m confirmation, sold into bullish bounce |
 
-### Psychology self-report
+### Trade #2: 20260527-XAUUSD-02
 
-- **Pre-trade:** Confident
-- **During:** "I think I entered too aggressively because of FOMO"
-- **Post:** "No problem I was wrong it's ok"
-
-### HTF evidence (verified from screenshots)
-
-- **1D:** Bearish structure from 5,500 ATH. Lower highs. Recent daily lows around 4,430–4,450 being tested.
-- **15m:** Bearish FVG confirmed in 4,420–4,430 zone after displacement from 4,468 → 4,402. Entry inside FVG body.
-- **1m:** Price had bounced +19.5 pts off 4,402.50 low. Entry was selling into bullish bounce — no bearish MSS on 1m at time of entry.
-
-### Key findings
-
-1. **Valid level, invalid execution.** The 15m FVG was correctly identified. The entry timing was FOMO-driven — no 1m confirmation existed.
-2. **Process violation:** Model requires 1m MSS/displacement before entry. This was skipped.
-3. **Risk management was excellent:** 0.27% risk on $3,000 is disciplined.
-4. **Post-trade psychology healthy:** No revenge impulse, honest self-assessment.
+| Field | Value |
+|---|---|
+| Direction | Short |
+| Entry | 4441.77 |
+| SL | 4448.52 |
+| TP | 4428.12 |
+| RR | 2.02R planned, -1R achieved |
+| Lot | 0.02 |
+| Risk | 0.39% |
+| Result | LOSS (-$11.70) |
+| Session | NY PM (21:33 IST) |
+| Rating | 5/10 |
+| Key issue | No BE management when in profit; post-loss overconfidence |
 
 ---
 
-## Key Decisions Made This Session
+## Performance at Session End
 
-1. **Repo is source of truth** — the 9-section template from the repo overrides any prompt formatting differences.
-2. **Trade ID format:** `YYYYMMDD-PAIR-NN` (e.g., `20260527-XAUUSD-01`)
-3. **No edge claims under 20 trades** — any "edge hypothesis" stays blank until sample is sufficient.
-4. **No hindsight ICT labels** — if the read can't be justified at the candle of entry, it's not applied.
-5. **Winners with bad process get downgraded; losers with clean process get credit.**
-6. **Ambiguous data → ask, never fabricate.**
+| Metric | Value |
+|---|---|
+| Total trades | 2 |
+| Win rate | 0% |
+| Expectancy | -1.00R |
+| Net R | -2.00R |
+| Net $ | -$19.84 |
+| Account | $3,000 → $2,980.16 |
+| Max drawdown | -2.00R |
+| Status | Insufficient data — 18 more trades needed for pattern detection |
 
 ---
 
@@ -94,43 +94,41 @@ future AI can pick up exactly where we left off.
   3. Wait for MSS / displacement
   4. Enter on iFVG or FVG rejection
   5. Manage using BE and liquidity targets
+- **Daily loss limit:** -2R (stop trading after 2 losses)
 
 ---
 
-## Coaching Notes (written to repo)
-
-### Lesson #1 — FOMO entry without 1m confirmation
-
-**Rule:** "If the 1m is making higher highs and higher lows, I do not sell — regardless of how good the HTF zone looks."
-
-The FVG is the zone, not the trigger. Zone + 1m confirmation = entry. Zone alone ≠ entry.
-
-### Lesson #2 — Define FVG rejection explicitly
-
-Rejection = price enters FVG → stalls → displaces away with momentum. A bounce INTO the FVG is NOT rejection — it's the opposite.
-
-### Lesson #3 — Screenshot HTF before entry
-
-Capture 15m/1D thesis with markup BEFORE entering. If you can't produce it after, the plan wasn't real.
-
----
-
-## Improvement Targets (active)
+## Active Improvement Targets
 
 1. Wait for 1m MSS/displacement before entry
-2. Screenshot HTF thesis before entry
-3. Define "FVG rejection" explicitly — stall + displacement away, not bounce into
+2. Implement BE management at 1R profit or first liquidity target
+3. Screenshot HTF + 1m confirmation before entry
+4. Post-loss cool-down check (recovery motivation = sit out)
+5. Daily loss limit = -2R (already followed — make permanent)
 
 ---
 
-## Screenshot Workflow Guidance
+## Behavioral Patterns Detected (Day 1)
 
-For future trades, send in one message:
-1. One multi-pane TradingView layout screenshot (1D + 15m + 1m) at entry
-2. One layout screenshot at exit
-3. Numbers + thesis + psychology
+| Pattern | Count | Severity |
+|---|---|---|
+| FOMO entry | 1 | High — caused Trade #1 loss |
+| No BE management | 1 | Medium — Trade #2 could have been saved |
+| Post-loss overconfidence | 1 | Yellow flag — monitor for recurrence |
+| Outcome dependency (happy/anxious with P&L) | 1 | Yellow flag — focus should be on process |
+| Daily loss limit respected | 1 | STRENGTH — protect this habit |
 
-TradingView snapshot links (tradingview.com/x/...) **do not work** — must paste/drag actual images.
+---
+
+## Key Decisions Made This Session
+
+1. **Repo is source of truth** — 9-section template used
+2. **Trade ID format:** `YYYYMMDD-PAIR-NN`
+3. **No edge claims under 20 trades**
+4. **No hindsight ICT labels**
+5. **Winners with bad process get downgraded; losers with clean process get credit**
+6. **Ambiguous data → ask, never fabricate**
+7. **Daily loss limit = -2R** (user-defined by behavior)
 
 ---
 
@@ -138,19 +136,8 @@ TradingView snapshot links (tradingview.com/x/...) **do not work** — must past
 
 1. Read this file for full context
 2. Read `new-ai-prompt.md` for behavioral instructions
-3. Check `analytics/ledger.csv` row count — currently 1 trade
+3. Check `analytics/ledger.csv` row count — currently 2 trades
 4. Read `coaching/lessons.md` for active improvement targets
 5. Continue the system — do not rebuild anything
-6. Next trade will be compared against `20260527-XAUUSD-01` for pattern detection
-
----
-
-## Performance at Session End
-
-| Metric | Value |
-|---|---|
-| Total trades | 1 |
-| Win rate | 0% |
-| Expectancy | -1.00R |
-| Net R | -1.00R |
-| Status | Insufficient data — 19 more trades needed for pattern detection |
+6. Next trade: compare against both Trade #1 and #2 for pattern detection
+7. Key question for next trade: "Did you wait for 1m MSS? Did you implement BE management?"

@@ -1,3 +1,5 @@
 trade_id,date,pair,session,direction,timeframes,setup_type,confirmation,entry,sl,tp,risk_pct,rr_planned,rr_achieved,result,bias,mistakes,strengths,rating
 
 20260527-XAUUSD-01,2026-05-27,XAUUSD,NY AM,Short,1D/15m/1m,15m FVG short,15m FVG + 1D bearish structure,4421.89,4429.04,4401.27,0.27,2.88,-1.00,LOSS,Bearish,No 1m confirmation; FOMO entry; selling into bullish momentum,Correct HTF thesis; disciplined risk; correct SL placement; honest self-assessment,4
+
+20260527-XAUUSD-02,2026-05-27,XAUUSD,NY PM,Short,1D/15m/1m,15m FVG short,15m FVG + 1D bearish structure,4441.77,4448.52,4428.12,0.39,2.02,-1.00,LOSS,Bearish,No BE management when in profit; trading after a loss; overconfidence post-loss; 1m confirmation undocumented,Better entry timing (at zone); disciplined SL hold; stopped after 2 losses; conservative risk,5
