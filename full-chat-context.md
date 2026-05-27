@@ -8,9 +8,9 @@ future AI can pick up exactly where we left off.
 ## Session Summary
 
 - **Date:** 27 May 2026
-- **Repo branch:** `setup/journal-infra` (commit `f99deca`)
-- **Trades logged to repo:** 0
-- **Pending trade (not yet committed):** `20260527-XAUUSD-01`
+- **Repo branch:** `add/context-and-prompt`
+- **Trades logged to repo:** 1
+- **Latest trade:** `20260527-XAUUSD-01` — COMMITTED ✅
 
 ---
 
@@ -18,18 +18,18 @@ future AI can pick up exactly where we left off.
 
 | Component | Status |
 |---|---|
-| `trades/` | Empty (`.gitkeep` only) |
-| `analytics/ledger.csv` | Header row only, 19 columns |
-| `analytics/performance.md` | All metrics `—` |
-| `coaching/lessons.md` | Empty scaffolding |
+| `trades/20260527-XAUUSD-01.md` | ✅ Committed (full 9-section analysis) |
+| `analytics/ledger.csv` | 1 row (header + 1 trade) |
+| `analytics/performance.md` | Updated with n=1 metrics |
+| `coaching/lessons.md` | Populated with first trade observations |
 | `templates/trade_template.md` | 9-section template locked |
-| `screenshots/` | Empty (`.gitkeep` only) |
+| `screenshots/` | Empty (`.gitkeep` only — screenshots referenced in trade file text) |
 
 ---
 
-## Pending Trade: 20260527-XAUUSD-01
+## Committed Trade: 20260527-XAUUSD-01
 
-### Data provided
+### Final verified data
 
 | Field | Value |
 |---|---|
@@ -41,8 +41,13 @@ future AI can pick up exactly where we left off.
 | Planned RR | 2.88R |
 | Result | Loss (-$8.14 = full SL hit) |
 | RR achieved | -1R |
-| Thesis | "Broke 1D swing low + currently in 15m FVG" |
-| Session | NY AM (19:19 IST = 09:49 ET) — unconfirmed by user |
+| Account size | $3,000 |
+| Risk % | 0.27% |
+| Session | NY AM (19:17 IST = 09:47 ET) |
+| Thesis | 1D bearish structure (selling from 5,500 ATH) + 15m FVG in 4,420–4,430 zone |
+| Setup type | 15m FVG short (bearish continuation) |
+| Confirmation used | 15m FVG + 1D bearish structure |
+| Rating | 4/10 |
 
 ### Psychology self-report
 
@@ -50,30 +55,18 @@ future AI can pick up exactly where we left off.
 - **During:** "I think I entered too aggressively because of FOMO"
 - **Post:** "No problem I was wrong it's ok"
 
-### Screenshot provided
+### HTF evidence (verified from screenshots)
 
-- 1m chart at time of entry (TradingView, 27 May 2026 19:19 UTC+5:30)
-- Shows: price bounced ~19.5 pts off 4402.50 low → entry was selling into a bullish bounce
+- **1D:** Bearish structure from 5,500 ATH. Lower highs. Recent daily lows around 4,430–4,450 being tested.
+- **15m:** Bearish FVG confirmed in 4,420–4,430 zone after displacement from 4,468 → 4,402. Entry inside FVG body.
+- **1m:** Price had bounced +19.5 pts off 4,402.50 low. Entry was selling into bullish bounce — no bearish MSS on 1m at time of entry.
 
-### What is MISSING (trade cannot be committed without these)
+### Key findings
 
-1. **15m chart** at time of entry — must show the FVG used as context
-2. **1D chart** showing the swing low that was broken (user attempted to send TradingView link `https://www.tradingview.com/x/zeAgkaPI/` but it cannot be fetched — needs screenshot pasted directly as image)
-3. **Account size** — needed to calculate risk %
-4. **Session confirmation** — assumed NY AM but not explicitly confirmed
-
-### Attempts to provide HTF evidence
-
-- User sent TradingView snapshot URL for 1D chart — AI tools cannot render/fetch these links.
-- User was told: must drag/paste screenshots as images, not share TV links.
-- As of end of session, HTF evidence still not provided.
-
-### Preliminary execution assessment
-
-- Entry location: selling into a bullish bounce off lows = structurally aggressive
-- FOMO acknowledged = honest self-awareness, but no corrective rule yet defined
-- HTF thesis unverifiable from provided evidence
-- If HTF screenshots cannot be provided: log as **"process violation — HTF evidence not captured"**
+1. **Valid level, invalid execution.** The 15m FVG was correctly identified. The entry timing was FOMO-driven — no 1m confirmation existed.
+2. **Process violation:** Model requires 1m MSS/displacement before entry. This was skipped.
+3. **Risk management was excellent:** 0.27% risk on $3,000 is disciplined.
+4. **Post-trade psychology healthy:** No revenge impulse, honest self-assessment.
 
 ---
 
@@ -93,6 +86,7 @@ future AI can pick up exactly where we left off.
 - **Instrument:** XAUUSD (primary)
 - **HTF context:** 15m
 - **Execution:** 1m
+- **Account:** $3,000
 - **Concepts:** liquidity sweeps, MSS, BOS, CHoCH, FVG, iFVG, OB, displacement, killzones, premium/discount, PO3, SMT divergence
 - **Process:**
   1. Identify HTF liquidity target
@@ -103,32 +97,33 @@ future AI can pick up exactly where we left off.
 
 ---
 
-## Coaching Notes (from this session, not yet written to repo)
+## Coaching Notes (written to repo)
 
-### Observation #1 — FOMO entry pattern
+### Lesson #1 — FOMO entry without 1m confirmation
 
-User self-reported FOMO on the very first trade. The 1m chart confirms
-aggressive timing (selling into bounce rather than waiting for displacement
-down). This is the first behavioral data point.
+**Rule:** "If the 1m is making higher highs and higher lows, I do not sell — regardless of how good the HTF zone looks."
 
-**Proposed rule (not yet accepted by user):**
-> "Do not enter short until a bearish displacement candle closes below the
-> prior swing low on the 1m. A rally off lows is not an entry signal — it's
-> the opposite."
+The FVG is the zone, not the trigger. Zone + 1m confirmation = entry. Zone alone ≠ entry.
 
-### Observation #2 — HTF evidence not captured
+### Lesson #2 — Define FVG rejection explicitly
 
-User could not provide 15m or 1D screenshots after the fact. This suggests
-the HTF analysis may have been done mentally but not documented pre-trade.
+Rejection = price enters FVG → stalls → displaces away with momentum. A bounce INTO the FVG is NOT rejection — it's the opposite.
 
-**Proposed rule (not yet accepted by user):**
-> "Before entering any trade, screenshot the HTF (15m + 1D/4H) chart with
-> markup showing the thesis. If you can't produce it after the trade, it
-> wasn't a real plan."
+### Lesson #3 — Screenshot HTF before entry
+
+Capture 15m/1D thesis with markup BEFORE entering. If you can't produce it after, the plan wasn't real.
 
 ---
 
-## Screenshot Workflow Guidance Given to User
+## Improvement Targets (active)
+
+1. Wait for 1m MSS/displacement before entry
+2. Screenshot HTF thesis before entry
+3. Define "FVG rejection" explicitly — stall + displacement away, not bounce into
+
+---
+
+## Screenshot Workflow Guidance
 
 For future trades, send in one message:
 1. One multi-pane TradingView layout screenshot (1D + 15m + 1m) at entry
@@ -143,35 +138,19 @@ TradingView snapshot links (tradingview.com/x/...) **do not work** — must past
 
 1. Read this file for full context
 2. Read `new-ai-prompt.md` for behavioral instructions
-3. Check if `20260527-XAUUSD-01` has been committed — if not, it's still pending (ask user for missing HTF screenshots)
-4. Check `analytics/ledger.csv` row count to know how many trades exist
+3. Check `analytics/ledger.csv` row count — currently 1 trade
+4. Read `coaching/lessons.md` for active improvement targets
 5. Continue the system — do not rebuild anything
+6. Next trade will be compared against `20260527-XAUUSD-01` for pattern detection
 
 ---
 
-## Session Conversation Log (key exchanges)
+## Performance at Session End
 
-### Exchange 1: User submitted first trade
-- Provided: 1m screenshot, entry/SL/TP, lot size, result, thesis, psychology
-- AI analyzed 1m chart, verified math (7.15pt SL = $8.14 loss on 0.01 lot ✓)
-- AI identified: entry was selling into a bullish bounce — structurally aggressive
-- AI asked for: 15m chart, 1D chart, account size, session confirmation
-
-### Exchange 2: User asked how to send charts
-- AI provided screenshot workflow guidance (drag/paste, Win+Shift+S, multi-pane TradingView layout)
-- AI recommended 3-pane layout (1D + 15m + 1m) for efficiency
-
-### Exchange 3: User sent TradingView snapshot URL for 1D
-- URL: `https://www.tradingview.com/x/zeAgkaPI/`
-- AI attempted to fetch — failed (TradingView renders dynamic images, not fetchable)
-- AI explained: must paste/drag actual image files, TV links don't work
-
-### Exchange 4: User requested context files be created
-- AI created `full-chat-context.md` and `new-ai-prompt.md`
-- Pushed to branch `add/context-and-prompt`
-- PR #2 created: https://github.com/yashsharmamails-jpg/journal/pull/2
-
-### Status at session end
-- Trade `20260527-XAUUSD-01` remains PENDING — waiting for HTF screenshots as images
-- 0 trades committed to repo
-- Journal infrastructure fully built and ready
+| Metric | Value |
+|---|---|
+| Total trades | 1 |
+| Win rate | 0% |
+| Expectancy | -1.00R |
+| Net R | -1.00R |
+| Status | Insufficient data — 19 more trades needed for pattern detection |
