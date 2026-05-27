@@ -1,64 +1,73 @@
 # Performance Report
 
-_Last updated: 2026-05-27 after trade `20260527-XAUUSD-01`_
+_Last updated: 2026-05-27 after trade `20260527-XAUUSD-02`_
 
 ## Headline metrics
 
 | Metric              | Value |
 |---------------------|-------|
-| Total trades        | 1 |
-| Win rate            | 100% (N=1, statistically meaningless) |
-| Average RR          | 2.74 |
-| Profit factor       | n/a (no losses yet) |
-| Expectancy (R)      | +2.74R |
+| Total trades        | 2 |
+| Win rate            | 50% (1W / 1L) |
+| Average RR          | +0.80R ((+2.74 − 1.14) / 2) |
+| Profit factor       | 2.40 ($31.62 won / $8.14 lost gross) |
+| Expectancy (R)      | +0.80R per trade |
+| Net R               | +1.60R |
+| Net P&L             | +$23.48 ($31.62 − $8.14) |
 | Max consecutive W   | 1 |
-| Max consecutive L   | 0 |
-| Max drawdown (R)    | 0R |
-| Avg rubric score    | 7.25 / 10 |
+| Max consecutive L   | 1 |
+| Max drawdown (R)    | −1.14R (Trade 02) |
+| Avg rubric score    | 6.63 / 10 ((7.25 + 6.0) / 2) |
+| Account             | $3,000 → $3,023.48 |
 
-> **Note:** Pattern detection requires ~20–50 trades minimum to be statistically
-> meaningful. With N=1 we have only baselines. Real edge analysis begins at N≥10.
+> **Note:** N=2. No statistical significance. Pattern detection starts at N>=10.
 
 ## By session
 
-| Session | Trades | Win rate | Avg RR | Expectancy | Avg rubric |
-|---------|--------|----------|--------|------------|-----------|
-| Asia (late) | 1 | 100% | 2.74 | +2.74R | 7.25 |
+| Session | Trades | Win rate | Avg RR | Net R | Avg rubric |
+|---------|--------|----------|--------|-------|-----------|
+| Asia (late) | 1 | 100% | +2.74 | +2.74 | 7.25 |
+| NY AM | 1 | 0% | −1.14 | −1.14 | 6.0 |
 | London Open | 0 | — | — | — | — |
-| NY AM | 0 | — | — | — | — |
-| Overlap | 0 | — | — | — | — |
 
 ## By pair
 
-| Pair | Trades | Win rate | Avg RR | Expectancy |
-|------|--------|----------|--------|------------|
-| XAUUSD | 1 | 100% | 2.74 | +2.74R |
+| Pair | Trades | Win rate | Avg RR | Net R |
+|------|--------|----------|--------|-------|
+| XAUUSD | 2 | 50% | +0.80 | +1.60 |
 
 ## By setup type
 
-| Setup | Trades | Win rate | Avg RR | Expectancy |
-|-------|--------|----------|--------|------------|
-| Liquidity grab + iFVG | 1 | 100% | 2.74 | +2.74R |
+| Setup | Trades | Win rate | Avg RR | Net R | Avg rubric |
+|-------|--------|----------|--------|-------|-----------|
+| Liquidity grab + iFVG | 1 | 100% | +2.74 | +2.74 | 7.25 |
+| CHoCH in zone (no displacement) | 1 | 0% | −1.14 | −1.14 | 6.0 |
 
-## By timeframe combo
+## By trigger quality
 
-| HTF / LTF | Trades | Win rate | Avg RR |
-|-----------|--------|----------|--------|
-| 15m + 1m | 1 | 100% | 2.74 |
+| Trigger | Trades | Win rate | Avg RR | Notes |
+|---------|--------|----------|--------|-------|
+| Full confirmation (sweep + MSS + iFVG + BOS) | 1 | 100% | +2.74 | Trade 01 |
+| Weak / partial (CHoCH only, no displacement) | 1 | 0% | −1.14 | Trade 02 |
 
 ## Monthly trend
 
-| Month | Trades | Win rate | Net R | Avg rubric |
-|-------|--------|----------|-------|-----------|
-| 2026-05 | 1 | 100% | +2.74 | 7.25 |
+| Month | Trades | Win rate | Net R | Net $ | Avg rubric |
+|-------|--------|----------|-------|-------|-----------|
+| 2026-05 | 2 | 50% | +1.60 | +$23.48 | 6.63 |
 
-## Open observations (need more data to be patterns)
+## Emerging pattern (N=2, premature but directionally clear)
 
-- **Setup choice is correct:** Liquidity grab + iFVG sits in the strongest-evidence tier per `02-edge-evidence.md`. Continue this setup.
-- **Session timing is suboptimal:** Late-Asia is moderate-edge at best. Higher-edge windows are London Open (12:30–15:30 IST) and NY AM (17:30–20:30 IST).
-- **Stop sizing is a systemic weakness:** First trade had a 3.84 pt stop on XAUUSD; playbook minimum is 15–20 pts. This is the #1 risk to track.
-- **Journaling discipline lags execution discipline:** Recognizing setups and managing exits scored 9–10/10. Capturing screenshots and logging risk % scored near zero. This gap will distort all future edge analysis if not closed.
+| Condition | Win rate | Avg RR | Conclusion |
+|---|---|---|---|
+| Full 1m trigger sequence present | 1/1 (100%) | +2.74 | Edge exists when process is followed |
+| Zone-only entry (no 1m confirmation) | 0/1 (0%) | −1.14 | No edge — predictable loss |
 
-## Edge candidates (premature — need N ≥ 20 to confirm)
+**The single most important variable so far: did you wait for the 1m trigger (MSS + displacement + iFVG), or did you skip it?**
 
-- _none yet — minimum sample not reached_
+## Open observations
+
+- **Trigger quality is the differentiator.** Not session, not zone, not bias — the trigger.
+- **FOMO is the #1 behavioral threat.** Trade 02 was FOMO-driven (confirmed by trader).
+- **Risk sizing is correct.** Both trades risked <0.5%. This is protective.
+- **Journaling still inconsistent.** No before screenshots on either trade.
+- **Account size now documented:** $3,000. Risk % backfilled.
