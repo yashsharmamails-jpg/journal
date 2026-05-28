@@ -1,0 +1,347 @@
+//@version=6
+// =============================================================================
+// AI-Readable Chart  — designed for screenshot → AI explanation workflows
+// =============================================================================
+// Goal: every meaningful chart event is labelled with a short candle ID (C###)
+// so a vision-capable AI can answer questions like:
+//   "Which candle swept liquidity?"  -> "C183 (EQH)"
+//   "Which candle caused BOS?"        -> "C244"
+//   "Which candle mitigated the FVG?" -> "C541"
+//
+// Modules: candle numbers, liquidity sweeps, BOS/CHOCH, FVG, order blocks,
+// displacement, sessions, and a fixed summary table (the table is the most
+// reliable surface for an AI to read — labels are secondary).
+// =============================================================================
+
+indicator("AI-Readable Chart", "AIChart", overlay = true,
+     max_labels_count = 500, max_boxes_count = 500, max_lines_count = 100)
+
+// =============================== INPUTS ======================================
+gN  = "1 · Candle Numbering"
+showNumbers = input.bool(true,  "Show candle numbers",          group = gN)
+numEvery    = input.int(5,      "Number every N candles",       minval = 1, group = gN)
+numLookback = input.int(200,    "Recent candles to number",     minval = 20, maxval = 500, group = gN)
+numSize     = input.string("tiny", "Number size",
+     options = ["tiny", "small", "normal"], group = gN)
+numAbove    = input.bool(false, "Place numbers above candle",   group = gN)
+
+gS = "2 · Liquidity Sweeps"
+enableSweep = input.bool(true, "Enable sweep detection",        group = gS)
+swingLen    = input.int(5,     "Swing pivot length",  minval=2, group = gS)
+eqTolATR    = input.float(0.1, "Equal H/L tolerance (× ATR)",   step = 0.05, group = gS)
+
+gM = "3 · Market Structure"
+enableStruct = input.bool(true, "Enable BOS / CHOCH",           group = gM)
+
+gF = "4 · Fair Value Gaps"
+enableFVG  = input.bool(true,  "Enable FVG detection",          group = gF)
+fvgMinATR  = input.float(0.1,  "Min FVG size (× ATR)", step=0.05, group = gF)
+fvgKeep    = input.int(20,     "Max FVGs to keep",     minval=5, group = gF)
+
+gO = "5 · Order Blocks"
+enableOB = input.bool(true, "Enable OB detection",              group = gO)
+obKeep   = input.int(15,    "Max OBs to keep", minval=3,        group = gO)
+
+gD = "6 · Displacement"
+enableDisp = input.bool(true,  "Enable displacement",           group = gD)
+dispATR    = input.float(1.5,  "Min range (× ATR)",   step=0.1, group = gD)
+dispBody   = input.float(70,   "Min body % of range", minval=0, maxval=100, group = gD)
+
+gSes = "7 · Sessions"
+enableSess = input.bool(true,                  "Enable sessions",  group = gSes)
+showSessBg = input.bool(true,                  "Tint background",  group = gSes)
+tz         = input.string("America/New_York",  "Timezone",         group = gSes)
+asiaSess   = input.session("1800-0300",        "Asia",             group = gSes)
+londonSess = input.session("0300-0800",        "London",           group = gSes)
+nySess     = input.session("0800-1700",        "New York",         group = gSes)
+
+gT = "8 · Summary Table"
+enableTable = input.bool(true, "Show event summary",             group = gT)
+tablePosIn  = input.string("top_right", "Table position",
+     options = ["top_right","top_left","bottom_right","bottom_left"], group = gT)
+
+gC = "9 · Colors"
+cBull    = input.color(color.new(#26a69a, 0),   "Bullish",      group = gC)
+cBear    = input.color(color.new(#ef5350, 0),   "Bearish",      group = gC)
+cFVGBull = input.color(color.new(#26a69a, 80),  "Bull FVG",     group = gC)
+cFVGBear = input.color(color.new(#ef5350, 80),  "Bear FVG",     group = gC)
+cOBBull  = input.color(color.new(#2962ff, 75),  "Bull OB",      group = gC)
+cOBBear  = input.color(color.new(#ff9800, 75),  "Bear OB",      group = gC)
+
+// =============================== HELPERS =====================================
+// Short, screenshot-friendly candle ID.  Last 3 digits of bar_index = "C###".
+cnum(int b = bar_index) => "C" + str.tostring(b % 1000)
+
+sizeFrom(string s) =>
+    s == "tiny"   ? size.tiny   :
+     s == "small"  ? size.small  :
+     s == "normal" ? size.normal : size.large
+
+posFrom(string s) =>
+    s == "top_left"     ? position.top_left     :
+     s == "bottom_right" ? position.bottom_right :
+     s == "bottom_left"  ? position.bottom_left  : position.top_right
+
+atr14 = ta.atr(14)
+
+// Event memory for the summary table
+var string lastSweep = "—"
+var string lastBOS   = "—"
+var string lastFVG   = "—"
+var string lastOB    = "—"
+var string lastDisp  = "—"
+var string curSess   = "—"
+
+// =========================== CANDLE NUMBERING ================================
+if showNumbers and barstate.isconfirmed
+    edge   = bar_index % numEvery == 0
+    recent = bar_index >= last_bar_index - numLookback
+    if edge and recent
+        y     = numAbove ? high + atr14 * 0.4 : low  - atr14 * 0.4
+        sty   = numAbove ? label.style_label_down : label.style_label_up
+        label.new(bar_index, y, cnum(),
+             color     = color.new(color.gray, 75),
+             textcolor = close >= open ? cBull : cBear,
+             style     = sty,
+             size      = sizeFrom(numSize))
+
+// =========================== SWING TRACKING ==================================
+ph = ta.pivothigh(high, swingLen, swingLen)
+pl = ta.pivotlow(low,  swingLen, swingLen)
+
+var float lastPH = na
+var float prevPH = na
+var float lastPL = na
+var float prevPL = na
+
+if not na(ph)
+    prevPH := lastPH
+    lastPH := ph
+if not na(pl)
+    prevPL := lastPL
+    lastPL := pl
+
+// =========================== LIQUIDITY SWEEPS ================================
+if enableSweep and barstate.isconfirmed
+    // Sweep high: wick pierces prior swing high but candle closes back below
+    if not na(lastPH) and high > lastPH and close < lastPH
+        tag = "LSH"
+        if not na(prevPH) and math.abs(lastPH - prevPH) <= atr14 * eqTolATR
+            tag := "EQH"
+        label.new(bar_index, high + atr14 * 0.6, tag + " " + cnum(),
+             color = cBear, textcolor = color.white,
+             style = label.style_label_down, size = size.small)
+        lastSweep := cnum() + " " + tag
+        lastPH := na
+
+    // Sweep low
+    if not na(lastPL) and low < lastPL and close > lastPL
+        tag = "LSL"
+        if not na(prevPL) and math.abs(lastPL - prevPL) <= atr14 * eqTolATR
+            tag := "EQL"
+        label.new(bar_index, low - atr14 * 0.6, tag + " " + cnum(),
+             color = cBull, textcolor = color.white,
+             style = label.style_label_up, size = size.small)
+        lastSweep := cnum() + " " + tag
+        lastPL := na
+
+// =========================== STRUCTURE: BOS / CHOCH ==========================
+var float structHigh = na
+var float structLow  = na
+var int   trendDir   = 0   // 1 = bull, -1 = bear, 0 = none
+
+if not na(ph)
+    structHigh := ph
+if not na(pl)
+    structLow  := pl
+
+if enableStruct and barstate.isconfirmed
+    if not na(structHigh) and close > structHigh
+        tag = trendDir == -1 ? "CHOCH↑" : "BOS↑"
+        label.new(bar_index, high + atr14 * 1.0, tag + " " + cnum(),
+             color = cBull, textcolor = color.white,
+             style = label.style_label_down, size = size.small)
+        line.new(bar_index - swingLen, structHigh, bar_index, structHigh,
+             color = color.new(cBull, 40), style = line.style_dashed)
+        lastBOS  := cnum() + " " + tag
+        trendDir := 1
+        structHigh := na
+    if not na(structLow) and close < structLow
+        tag = trendDir == 1 ? "CHOCH↓" : "BOS↓"
+        label.new(bar_index, low - atr14 * 1.0, tag + " " + cnum(),
+             color = cBear, textcolor = color.white,
+             style = label.style_label_up, size = size.small)
+        line.new(bar_index - swingLen, structLow, bar_index, structLow,
+             color = color.new(cBear, 40), style = line.style_dashed)
+        lastBOS  := cnum() + " " + tag
+        trendDir := -1
+        structLow := na
+
+// =========================== FAIR VALUE GAPS =================================
+type FVG
+    box    bx
+    float  top
+    float  bot
+    bool   bull
+    int    created
+    bool   mitigated
+
+var array<FVG> fvgs = array.new<FVG>()
+
+if enableFVG and barstate.isconfirmed and bar_index > 2
+    bullGap = low > high[2]
+    bearGap = high < low[2]
+    minSz   = atr14 * fvgMinATR
+
+    if bullGap and (low - high[2]) >= minSz
+        b = box.new(bar_index - 2, low, bar_index + 5, high[2],
+             border_color = color.new(cBull, 50),
+             bgcolor      = cFVGBull)
+        label.new(bar_index, high[2], "FVG↑ " + cnum(),
+             color = color.new(cBull, 30), textcolor = color.white,
+             style = label.style_label_up, size = size.tiny)
+        fvgs.push(FVG.new(b, low, high[2], true, bar_index, false))
+        lastFVG := cnum() + " bull"
+
+    if bearGap and (low[2] - high) >= minSz
+        b = box.new(bar_index - 2, low[2], bar_index + 5, high,
+             border_color = color.new(cBear, 50),
+             bgcolor      = cFVGBear)
+        label.new(bar_index, low[2], "FVG↓ " + cnum(),
+             color = color.new(cBear, 30), textcolor = color.white,
+             style = label.style_label_down, size = size.tiny)
+        fvgs.push(FVG.new(b, low[2], high, false, bar_index, false))
+        lastFVG := cnum() + " bear"
+
+    // Extend, mitigate, recycle
+    if fvgs.size() > 0
+        for i = 0 to fvgs.size() - 1
+            f = fvgs.get(i)
+            if not f.mitigated
+                box.set_right(f.bx, bar_index + 5)
+                hit = f.bull ? low <= f.top : high >= f.bot
+                if hit
+                    f.mitigated := true
+                    box.set_bgcolor(f.bx, color.new(color.gray, 88))
+                    label.new(bar_index, f.bull ? f.top : f.bot,
+                         "mit " + cnum(),
+                         color     = color.new(color.gray, 30),
+                         textcolor = color.white,
+                         style     = f.bull ? label.style_label_up : label.style_label_down,
+                         size      = size.tiny)
+        while fvgs.size() > fvgKeep
+            old = fvgs.shift()
+            box.delete(old.bx)
+
+// =========================== ORDER BLOCKS ====================================
+type OB
+    box   bx
+    bool  bull
+    int   created
+
+var array<OB> obs = array.new<OB>()
+
+if enableOB and barstate.isconfirmed
+    bullOB = close[1] < open[1] and close > open and close > high[1] and (close - open) > atr14
+    bearOB = close[1] > open[1] and close < open and close < low[1]  and (open - close) > atr14
+
+    if bullOB
+        b = box.new(bar_index - 1, high[1], bar_index + 5, low[1],
+             border_color = color.new(cBull, 40), bgcolor = cOBBull)
+        label.new(bar_index - 1, low[1], "OB↑ " + cnum(bar_index - 1),
+             color = color.new(cBull, 30), textcolor = color.white,
+             style = label.style_label_up, size = size.tiny)
+        obs.push(OB.new(b, true, bar_index - 1))
+        lastOB := cnum(bar_index - 1) + " bull"
+
+    if bearOB
+        b = box.new(bar_index - 1, high[1], bar_index + 5, low[1],
+             border_color = color.new(cBear, 40), bgcolor = cOBBear)
+        label.new(bar_index - 1, high[1], "OB↓ " + cnum(bar_index - 1),
+             color = color.new(cBear, 30), textcolor = color.white,
+             style = label.style_label_down, size = size.tiny)
+        obs.push(OB.new(b, false, bar_index - 1))
+        lastOB := cnum(bar_index - 1) + " bear"
+
+    if obs.size() > 0
+        for i = 0 to obs.size() - 1
+            box.set_right(obs.get(i).bx, bar_index + 5)
+        while obs.size() > obKeep
+            old = obs.shift()
+            box.delete(old.bx)
+
+// =========================== DISPLACEMENT ====================================
+if enableDisp and barstate.isconfirmed
+    rng     = high - low
+    body    = math.abs(close - open)
+    bodyPct = rng > 0 ? (body / rng) * 100 : 0
+    if rng > atr14 * dispATR and bodyPct >= dispBody
+        bull = close > open
+        y    = bull ? low - atr14 * 0.5 : high + atr14 * 0.5
+        sty  = bull ? label.style_label_up : label.style_label_down
+        label.new(bar_index, y, "DISP " + cnum(),
+             color = bull ? cBull : cBear, textcolor = color.white,
+             style = sty, size = size.small)
+        lastDisp := cnum() + (bull ? " ↑" : " ↓")
+
+// =========================== SESSIONS ========================================
+inSess(string s) => not na(time(timeframe.period, s, tz))
+
+if enableSess
+    curSess := inSess(asiaSess)   ? "Asia"     :
+               inSess(londonSess) ? "London"   :
+               inSess(nySess)     ? "New York" : "Off"
+
+bgcolor(enableSess and showSessBg and inSess(asiaSess)   ? color.new(color.yellow, 92) : na, title = "Asia bg")
+bgcolor(enableSess and showSessBg and inSess(londonSess) ? color.new(color.blue,   92) : na, title = "London bg")
+bgcolor(enableSess and showSessBg and inSess(nySess)     ? color.new(color.green,  92) : na, title = "NY bg")
+
+// =========================== SUMMARY TABLE ===================================
+// This is the single most useful surface for AI vision: a fixed plain-text
+// block listing the most recent events.
+var table tbl = table.new(posFrom(tablePosIn), 2, 8,
+     bgcolor      = color.new(color.black, 15),
+     border_color = color.gray,
+     border_width = 1,
+     frame_color  = color.gray,
+     frame_width  = 1)
+
+if enableTable and barstate.islast
+    table.cell(tbl, 0, 0, "AI Chart Summary",
+         text_color = color.white, bgcolor = color.new(color.blue, 40),
+         text_size  = size.normal)
+    table.merge_cells(tbl, 0, 0, 1, 0)
+
+    table.cell(tbl, 0, 1, "Bar",        text_color = color.silver, text_size = size.small)
+    table.cell(tbl, 1, 1, cnum(),       text_color = color.white,  text_size = size.small)
+
+    table.cell(tbl, 0, 2, "Session",    text_color = color.silver, text_size = size.small)
+    table.cell(tbl, 1, 2, curSess,      text_color = color.white,  text_size = size.small)
+
+    table.cell(tbl, 0, 3, "Sweep",      text_color = color.silver, text_size = size.small)
+    table.cell(tbl, 1, 3, lastSweep,    text_color = color.white,  text_size = size.small)
+
+    table.cell(tbl, 0, 4, "BOS/CHOCH",  text_color = color.silver, text_size = size.small)
+    table.cell(tbl, 1, 4, lastBOS,      text_color = color.white,  text_size = size.small)
+
+    table.cell(tbl, 0, 5, "FVG",        text_color = color.silver, text_size = size.small)
+    table.cell(tbl, 1, 5, lastFVG,      text_color = color.white,  text_size = size.small)
+
+    table.cell(tbl, 0, 6, "OB",         text_color = color.silver, text_size = size.small)
+    table.cell(tbl, 1, 6, lastOB,       text_color = color.white,  text_size = size.small)
+
+    table.cell(tbl, 0, 7, "Disp",       text_color = color.silver, text_size = size.small)
+    table.cell(tbl, 1, 7, lastDisp,     text_color = color.white,  text_size = size.small)
+
+// =============================================================================
+// Legend (one-shot label on the latest bar so AI knows the abbreviations)
+// =============================================================================
+var label legend = na
+if barstate.islast
+    label.delete(legend)
+    legend := label.new(bar_index + 6, close,
+         "Legend\nC### = candle id (last 3 digits of bar)\nLSH/LSL = sweep high/low\nEQH/EQL = equal-highs/lows sweep\nBOS / CHOCH = structure break / change\nFVG↑↓ = fair value gap\nOB↑↓ = order block\nDISP = displacement candle",
+         color     = color.new(color.black, 20),
+         textcolor = color.white,
+         style     = label.style_label_left,
+         size      = size.small)
