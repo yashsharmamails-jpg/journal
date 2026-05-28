@@ -1,70 +1,98 @@
 # Performance Report
 
-_Last updated: 2026-05-27 after trade `20260527-XAUUSD-03`_
+_Last updated: 2026-05-28 after trade `20260528-XAUUSD-01`_
 
-## Headline metrics
+## Headline metrics (cumulative across all sessions)
 
 | Metric              | Value |
 |---------------------|-------|
-| Total trades        | 3 |
-| Win rate            | 67% (2W / 1L) |
-| Average RR          | +1.11R |
-| Profit factor       | 6.61 |
-| Expectancy (R)      | +1.11R per trade |
-| Net R               | +3.32R |
-| Net P&L             | +$45.80 |
+| Total trades        | 4 |
+| Win rate            | 50% (2W / 2L) |
+| Average RR          | +0.60R |
+| Profit factor       | 4.27 |
+| Expectancy (R)      | +0.60R per trade |
+| Net R               | +2.39R |
+| Net P&L             | +$33.17 |
 | Max consecutive W   | 1 |
 | Max consecutive L   | 1 |
 | Max drawdown (R)    | -1.14R |
-| Avg rubric score    | **5.75 / 10** (DECLINING: 7.25 → 6.0 → 4.0) |
-| Account             | $3,000 → $3,045.80 |
+| Avg rubric score    | **5.38/10** (DECLINING: 7.25 → 6.0 → 4.0 → 4.25) |
+| Account             | $3,000 → $3,033.17 (+1.11%) |
 
-> **Warning:** Net P&L is positive but average rubric is declining trade-over-trade. Wins are masking deteriorating process. N=3 — pattern flag, not statistical significance yet.
+> **Pattern flag:** Net P&L still positive, but rubric average has been declining for 4 consecutive trades. Process quality is deteriorating while wins/losses cancel out.
+
+## Per-day breakdown
+
+### Day 1 (2026-05-27)
+| Metric | Value |
+|---|---|
+| Trades | 3 (2W / 1L) |
+| Net R | +3.32R |
+| Net $ | +$45.80 |
+| Avg rubric | 5.75/10 |
+| End balance | $3,045.80 |
+
+### Day 2 (2026-05-28)
+| Metric | Value |
+|---|---|
+| Trades | 1 (0W / 1L) |
+| Net R | -0.93R |
+| Net $ | -$12.63 |
+| Avg rubric | 4.25/10 |
+| End balance | $3,033.17 |
+| Daily loss limit (-2R) | -0.93R used (1.07R remaining) |
 
 ## By session
 
 | Session | Trades | Win rate | Avg RR | Net R | Avg rubric |
 |---------|--------|----------|--------|-------|-----------|
 | Asia (late) | 1 | 100% | +2.74 | +2.74 | 7.25 |
+| Frankfurt / Pre-London | 1 | 0% | -0.93 | -0.93 | 4.25 |
 | NY AM | 1 | 0% | -1.14 | -1.14 | 6.0 |
 | Off-killzone (London Close/NY PM) | 1 | 100% | +1.72 | +1.72 | 4.0 |
-| London Open | 0 | — | — | — | — |
+| London Open (proper) | 0 | — | — | — | — |
 
-## By setup type
-
-| Setup | Trades | Win rate | Avg RR | Net R | Avg rubric |
-|-------|--------|----------|--------|-------|-----------|
-| Liquidity sweep + iFVG (full trigger) | 1 | 100% | +2.74 | +2.74 | 7.25 |
-| 15m FVG + CHoCH only (no sweep, no displacement) | 2 | 50% | +0.29 | +0.58 | 5.0 |
+**Observation:** 0 of 4 trades were inside the London Open killzone (12:30-15:30 IST) or NY AM killzone (17:30-20:30 IST) proper.
 
 ## By trigger quality
 
-| Trigger | Trades | Win rate | Avg RR |
-|---------|--------|----------|--------|
-| Full (sweep + MSS + iFVG + BOS) | 1 | 100% | +2.74 |
-| Weak (CHoCH/mCHoCH only) | 2 | 50% | +0.29 |
+| Trigger | Trades | Win rate | Avg RR | Avg rubric |
+|---------|--------|----------|--------|-----------|
+| Full (sweep + MSS + iFVG + BOS) | 1 | 100% | +2.74 | 7.25 |
+| Weak / no explicit trigger | 3 | 33% | -0.12 | 4.75 |
 
-**Variance is real.** Two zone-only entries: 1W / 1L. Net positive on coin-flip — but luck isn't repeatable.
+**This is now N=4 with 3 of 4 trades having the same flaw.** The pattern is becoming statistically clearer (though sample is still small):
+- Full process trades: edge exists.
+- Zone-only / thesis-only trades: coin-flip with negative average expectancy.
 
-## By liquidity-sweep precondition
+## By stop buffer size
 
-| Sweep before entry? | Trades | Win rate | Avg RR | Avg rubric |
-|---|---|---|---|---|
-| Yes | 1 | 100% | +2.74 | 7.25 |
-| No / weak | 2 | 50% | +0.29 | 5.0 |
+| Stop size | Trades | Win rate | Notes |
+|---|---|---|---|
+| < 5 pts | 2 | 50% | T01 (won), T03 (won) |
+| 5-10 pts | 2 | 50% | T02 (lost), Day2-T01 (lost) |
+| 15-20+ pts (per playbook) | 0 | — | **Never used yet** |
 
-## Daily breakdown
+## By session windows
 
-| Date | Trades | Result | Net R | Net $ | Avg rubric | Notes |
-|---|---|---|---|---|---|---|
-| 2026-05-27 | 3 | 2W/1L | +3.32 | +$45.80 | 5.75 | "Done for the day" said after T02; T03 taken anyway. Discipline broken. |
+| Window | Trades | Win rate |
+|---|---|---|
+| Asia | 1 | 100% |
+| Frankfurt (pre-London) | 1 | 0% |
+| London Open | 0 | — |
+| NY AM | 1 | 0% |
+| Off-killzone | 1 | 100% |
 
-## Critical observations (Day 1, N=3)
+## Critical observations (N=4)
 
-1. **Trigger quality is the differentiator.** Full sequence = 100% WR + +2.74R. Zone-only = 50% WR + +0.29R.
-2. **Knowledge gap: MSS** — trader doesn't know. Has been using CHoCH.
-3. **Discipline broken: "done for the day"** — said after T02, broken on T03.
-4. **Trades getting worse:** rubric trend 7.25 → 6.0 → 4.0.
-5. **Lucky-win pattern documented:** T03 = WIN with 4.0/10. "Lucky winner = bad trade."
-6. **No primary killzone usage:** 0/3 trades in London Open or NY AM proper.
-7. **Risk sizing remains disciplined:** all <0.5%.
+1. **Trigger quality remains the dominant variable.** 1 of 4 trades used full process — that one won big. The other 3 were thesis/zone-only.
+2. **Knowledge gap unresolved:** trader still hasn't learned MSS (per Day 1 T03 admission). Day 2 T01 confirms the gap is still active.
+3. **0 of 4 trades in primary killzones** (London Open or NY AM proper). All 4 were in transition windows or off-hours.
+4. **0 of 4 trades used playbook-compliant stop buffer (15-20 pts on XAUUSD).** Ranges 4-7 pts. Won 2/4 by luck.
+5. **Net P&L is masking process decay.** Account is up $33.17, but rubric trend is 7.25 → 6.0 → 4.0 → 4.25. The journal is screaming what the P&L is hiding.
+
+## What the data says (still N=4, premature but directional)
+
+- **The setup has edge** when full process is followed (1/1 with full process).
+- **The setup has NO edge** when shortcut to "zone is enough" (1W / 2L / coin-flip).
+- **The differentiator is the 1m trigger**, not the HTF zone.

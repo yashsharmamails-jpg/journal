@@ -1,107 +1,112 @@
 # Coaching Log
 
 Running record of behavioral, technical, and psychological patterns.
-Last update: 2026-05-27 (Trade 03).
+Last update: 2026-05-28 (Day 2 Trade 01).
 
 ## Recurring mistakes
 
 | Mistake | Count | Last seen | Cost (R) | Notes |
 |---------|-------|-----------|----------|-------|
-| No liquidity sweep before entry | 2 | 2026-05-27 T03 | -1.14R / +1.72R | Model precondition violated |
-| CHoCH used instead of MSS | 2 | 2026-05-27 T03 | mixed | **Trader doesn't know MSS** |
-| FOMO entry (zone without trigger) | 1 | 2026-05-27 T02 | -1.14R | |
-| Shorted into liquidation flow | 1 | 2026-05-27 T02 | -1.14R | "sellers stopped out" above entry |
-| SL buffer too tight (XAUUSD <15pt) | 3 | 2026-05-27 T03 | 0R direct | Won 2/3 by luck |
-| **Trade after "done for the day"** | 1 | 2026-05-27 T03 | +1.72R | **DISCIPLINE VIOLATION** |
-| Trading off-killzone | 1 | 2026-05-27 T03 | 0R | 22:47 IST = dead zone |
-| Numbers typed don't match chart | 1 | 2026-05-27 T03 | 0R | Verify broker in AM |
-| No before screenshot | 2 | 2026-05-27 T02 | 0R | Fixed on T03 |
-| BE moved before secondary 15m break | 1 | 2026-05-27 T01 | 0R | |
+| **No 1m MSS / displacement before entry** | **3** | **2026-05-28** | -1.14 / +1.72 / -0.93 | **Most repeated mistake — same root cause every time** |
+| **Selling/buying into opposite 1m structure** | **2** | **2026-05-28** | -1.14 / -0.93 | Both losses came from countertrend 1m execution |
+| Trigger conflated with thesis | 3 | 2026-05-28 | mixed | "May go down" / "currently in FVG" — these are predictions, not signals |
+| SL buffer too tight (XAUUSD <15pt) | 4 | 2026-05-28 | mixed | All 4 trades used <8 pt stops |
+| Trading off-killzone or pre-killzone | 3 | 2026-05-28 | mixed | T01 (late-Asia), T03 (off-killzone), Day2-T01 (Frankfurt pre-London) |
+| FOMO entry | 1 | 2026-05-27 T02 | -1.14R | Day 1 only so far |
+| Numbers typed don't match chart | 1 | 2026-05-27 T03 | 0R | Verify broker statement |
+| BE moved too early | 1 | 2026-05-27 T01 | 0R | Won anyway |
+| No before screenshot | 3 | 2026-05-28 | 0R direct | Fixed only on T03 |
 
 ## Recurring strengths
 
 | Strength | Count | Last seen |
 |----------|-------|-----------|
-| HTF/LTF SMC alignment (sweep + iFVG) | 1 | 2026-05-27 T01 |
-| Correct zone ID | 3 | 2026-05-27 T03 |
-| Clean TP placement | 3 | 2026-05-27 T03 |
-| Disciplined risk sizing (<0.5%) | 3 | 2026-05-27 T03 |
-| Healthy post-loss psychology | 1 | 2026-05-27 T02 |
-| Disciplined disengagement | 2 | 2026-05-27 T03 |
-| **Before screenshots taken** | 1 | 2026-05-27 T03 (FIRST TIME) |
+| Correct HTF zone identification | 4 | 2026-05-28 |
+| Disciplined risk sizing (<0.5%) | 4 | 2026-05-28 |
+| Honest psychology logs (pre/during/post) | 2 | 2026-05-28 |
+| Disciplined SL hold (no panic close) | 3 | 2026-05-28 |
+| Healthy post-loss acceptance | 2 | 2026-05-28 |
+| Realistic TP placement | 3 | 2026-05-27 T03 |
+| Before screenshots taken | 1 | 2026-05-27 T03 |
 
 ## Psychology patterns
 
-- FOMO entries: 1 (T02)
-- Revenge trades: 0 explicit, **1 likely** (T03 — same energy after "done for the day")
+- FOMO entries: 1 (D1 T02)
+- Revenge trades: 0 (within a single day)
 - Fear-based exits: 0
-- Overtrading days: **1** (T03 violated "done for the day")
-- Patience wins: 1 (T01)
-- **Lucky-win blindness:** T03 won money but failed process (4.0/10). Risk: feeling good about a win regardless of process.
+- Patience wins: 1 (D1 T01)
+- **Anxiety during drawdown:** 2 (D1 T02, D2 T01) — same pattern: confident → tense → acceptance
+- **Lucky-win blindness:** 1 (D1 T03 — won despite 4.0/10 process)
+- **Healthy resilience after losses:** 2 (no revenge cycle, calm acceptance)
 
-## The #1 lesson from Day 1
+## The #1 lesson — now confirmed across 4 trades
 
-> **Zone ≠ Trigger. CHoCH ≠ MSS.**
+> **Zone ≠ Trigger. Thesis ≠ Signal.**
 >
-> Step 1: HTF zone — done correctly on all 3 trades.
-> Step 2: 1m **MSS with displacement** — only on T01.
-> Step 3: iFVG retest — only on T01.
+> "1H bearish FVG with SSL untaken below" is a THESIS. It tells you which direction the higher-probability move is. It does NOT tell you when to enter.
 >
-> T01: Steps 1-2-3 → WIN +2.74R, rubric 7.25
-> T02: Step 1 only → LOSS -1.14R, rubric 6.0
-> T03: Step 1 only → WIN +1.72R, rubric 4.0 (lucky)
+> The TRIGGER is what tells you to enter:
+> - 1m liquidity sweep
+> - 1m MSS with displacement (impulsive candle ≥2× ATR, body ≥80%, leaves FVG)
+> - 1m iFVG retest with rejection
 >
-> **The skill gap is MSS recognition, not zone identification.**
-
-## CRITICAL Knowledge gap
-
-**Trader does not know what MSS is.** Confirmed on T03.
-
-Per `knowledge/01-ict-smc-reference.md`:
-
-> **MSS strict rule (all 3 must be true):**
-> 1. Liquidity sweep occurred first
-> 2. Body close beyond opposing structural swing
-> 3. Displacement: ≥2× ATR(20), body ≥80% of range, leaves FVG
+> Across 4 trades:
+> - Full trigger sequence used: 1/1 → WIN +2.74R, rubric 7.25
+> - Thesis/zone only: 3/3 → 1W / 2L (coin flip), rubric avg 4.75
 >
-> **CHoCH ≠ MSS.** CHoCH = warning. MSS = CHoCH + displacement.
+> **Until MSS is learned and required, this pattern will repeat.**
 
-**Action:** read sections 2 and 3 of knowledge/01-ict-smc-reference.md before any trade.
+## CRITICAL Knowledge gap (still open)
 
-## Edge hypothesis (refined)
+**Trader does not know MSS.** Confirmed on D1 T03. D2 T01 confirms the gap is still affecting decisions — entry was thesis-only with no 1m trigger cited.
 
-- **Refined (N=3):** sweep + MSS + iFVG has edge. Without sweep AND without MSS = coin flip (1W/1L on N=2 of those).
-- T01 (full process) → +2.74R confirms.
-- T02 & T03 (no sweep, no MSS) → +0.29R avg with rubric 5.0/10. Wins are luck.
+**Required reading before next trade:** `knowledge/01-ict-smc-reference.md` sections 2 (CHoCH), 3 (MSS), 14 (Displacement).
+
+After reading, write a 3-line definition of MSS in your own words. Send it. We'll verify.
+
+## Edge hypothesis (further confirmed)
+
+- **Setup with full process: edge confirmed at N=1.** Liquidity sweep + 1m MSS + iFVG retest + clean TP placement = WIN +2.74R.
+- **Setup without full process: no edge at N=3.** 1W / 2L. Net +R only because the one win (T03) was lucky-large.
+- **The variance has now produced 2 losses on bad process.** The math is patient.
 
 ## Open improvement targets (priority)
 
-1. **LEARN MSS.** Read knowledge/01-ict-smc-reference.md sections 2 and 3.
-2. **WAIT FOR LIQUIDITY SWEEP** before any entry. Skipped on 2/3.
-3. **WAIT FOR 1m MSS + DISPLACEMENT.** CHoCH alone isn't enough.
-4. **"Done for the day" is inviolable.** Broken once, won by luck. Next time = -3R day.
-5. **15-20 pt stop buffer** on XAUUSD.
-6. **Track MAE and MFE.**
-7. **Prefer London Open / NY AM** killzones.
+1. **LEARN MSS.** Read knowledge/01-ict-smc-reference.md sections 2, 3, 14. Define MSS in your own words and send it. Mandatory before next trade.
+2. **Wait for 1m bearish displacement before shorting / 1m bullish displacement before buying.** Not just zone arrival.
+3. **15-20 pt stop buffer on XAUUSD.** No exceptions. 4 trades in a row violated this.
+4. **Trade inside primary killzones** (London Open 12:30-15:30, NY AM 17:30-20:30 IST). 0 of 4 trades have been in these windows proper.
+5. **Distinguish thesis from signal in the journal.** Before entry: write down the *signal* not just the *thesis*. If you can't articulate the signal in one sentence ("1m bearish displacement candle closed below prior 1m swing low at X"), you don't have one.
+6. **Track MAE and MFE every trade.**
 
-## Daily log
+## Daily logs
 
 ### 2026-05-27 (Day 1)
-- **Trades:** 3
-- **Results:** +2.74R, -1.14R, +1.72R = **+3.32R (+$45.80)**
-- **Account:** $3,000 → $3,045.80
-- **Avg rubric:** 5.75/10 (declining: 7.25 → 6.0 → 4.0)
-- **Key knowledge gap:** MSS — must learn before next session
-- **Discipline:** Broken (T03 after "done for the day")
-- **Improvement:** Before screenshots captured for the first time (T03)
+- 3 trades: 2W / 1L = +3.32R / +$45.80
+- Avg rubric: 5.75/10 (declining: 7.25 → 6.0 → 4.0)
+- Key gap: MSS knowledge missing
+- Discipline broken (T03 after "done for the day")
+- Improvement: first before-screenshots captured (T03)
 
-## What "good Day 2" looks like
+### 2026-05-28 (Day 2)
+- 1 trade so far: 0W / 1L = -0.93R / -$12.63
+- Rubric: 4.25/10 (FAIL)
+- Same root cause as D1 T02: HTF zone correct, 1m trigger absent, sold into bullish 1m structure
+- 4th trade in a row with this same flaw
+- Pre-killzone (Frankfurt window) — high false-signal rate
+- Disciplined emotional handling (held SL through anxiety)
+- Daily loss limit (-2R) status: -0.93R used, 1.07R remaining
 
-1. Read knowledge/01-ict-smc-reference.md sections 2, 3, 14 (MSS, CHoCH, displacement).
-2. Re-read knowledge/03-xauusd-playbook.md workflow.
-3. Verify T03 actual fill prices from broker statement.
-4. Skip any setup without:
-   - Liquidity sweep before entry
-   - 1m MSS with displacement (NOT CHoCH alone)
-   - 15+ pt stop buffer
-5. **Honor "done for the day" — no exceptions.**
+## What "good Day 2 Trade 02" looks like (if taken)
+
+Before placing any next trade, all 5 must be true:
+
+1. ✅ HTF zone identified (FVG / OB / unmitigated swing) — you've been doing this consistently
+2. ✅ Liquidity sweep occurred (in the direction you want to trade — i.e., for short, BSL above swept; for long, SSL below swept)
+3. ✅ 1m bearish displacement (for short) or bullish displacement (for long) — body close ≥2× ATR(20), body ≥80% of range, leaves FVG
+4. ✅ Stop placed 15-20 pts beyond the displacement origin
+5. ✅ TP at next opposing liquidity pool, ≥1:2.5 RR
+
+If any one fails → no trade.
+
+If all 5 are true and the trade still loses → that's variance, not process failure. Rubric will still grade ≥7/10.

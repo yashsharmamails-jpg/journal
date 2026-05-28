@@ -24,26 +24,28 @@ Read these files IN ORDER:
 
 ---
 
-## CURRENT STATE (2026-05-27, end of Day 1)
+## CURRENT STATE (2026-05-28, after Day 2 Trade 01)
 
 | Metric | Value |
 |---|---|
-| Account | $3,000 → $3,045.80 (+$45.80) |
-| Trades | 3 (2W, 1L) |
-| Net R | +3.32R |
-| Win rate | 67% |
-| Avg rubric | **5.75/10 (DECLINING: 7.25 → 6.0 → 4.0)** |
+| Account | $3,000 → $3,033.17 (+1.11%) |
+| Trades | 4 (2W, 2L) — across 2 days |
+| Net R | +2.39R |
+| Win rate | 50% |
+| Avg rubric | **5.38/10 (DECLINING: 7.25 → 6.0 → 4.0 → 4.25)** |
 | Max drawdown | -1.14R |
-| Profit factor | 6.61 |
-| Edge hypothesis | Refined: only valid with full sweep + MSS sequence |
+| Profit factor | 4.27 |
+| Edge hypothesis | Confirmed: full trigger sequence has edge; zone-only is coin-flip |
 
-### CRITICAL DAY 1 FINDINGS
+### CRITICAL FINDINGS (across 4 trades)
 
-1. **Knowledge gap:** trader does not know what MSS is. Has been using CHoCH as trigger.
-2. **Discipline broken:** said "done for the day" after Trade 02, took Trade 03 anyway.
-3. **Lucky-win pattern:** Trade 03 won money but failed process (4.0/10).
-4. **Trades getting worse:** rubric trend declining trade-over-trade.
-5. **Net P&L is masking process decay.**
+1. **Same recurring mistake on 3 of 4 trades:** zone-only entry without 1m MSS.
+2. **Knowledge gap unresolved:** trader still doesn't know MSS. Day 2 T01 confirms the gap is still affecting decisions.
+3. **HTF zone identification is STRONG.** That's not the problem.
+4. **1m trigger logic is the gap.** Same flaw on T02, T03, and Day 2 T01.
+5. **Wins are masking process decay.** Net +$33.17 but rubric declining.
+6. **0 of 4 trades in primary killzones.** All in transition windows or off-hours.
+7. **0 of 4 trades used 15-20 pt stop buffer.** Won 2/4 with sub-8pt stops by luck.
 
 ---
 
@@ -58,14 +60,15 @@ Read these files IN ORDER:
 
 ---
 
-## PENDING QUESTIONS (ask me these at the start of next session)
+## PENDING QUESTIONS (ask the trader)
 
-1. **Trade #1 stop buffer** — stop was only 3.84 pts (playbook says 15–20 pts). Were you aware it was tight, or calculated differently?
-2. **Trade #2 MFE** — did the trade go into ANY profit before reversing to SL? Even briefly?
-3. **The "very confident" feeling before Trade #2** — genuine process-confidence or "I need to make that back" energy?
-4. **Trade #3 numbers** — your typed numbers (entry 4453.46 / SL 4446.19 / TP 4456.36) don't reconcile with the $22.32 win at 0.03 lot. Chart shows entry ~4445.96, TP 4454.10. Pull broker statement and confirm.
-5. **Trade #3 honest motivation** — you said "done for the day" after Trade 02. Then you took Trade 03 anyway and won. What was actually going through your head when you took it? "This setup is too good to skip" or "I want to end the day green"? Be brutally honest — this matters more than the trade.
-6. **MSS knowledge** — read `knowledge/01-ict-smc-reference.md` sections 2, 3, and 14. Then explain MSS back in your own words. This is the missing piece in your trigger logic.
+1. **D1 T01 stop buffer** — stop was 3.84 pts (playbook says 15-20 pts). Aware or calculated differently?
+2. **D1 T02 MFE** — did it go into ANY profit before reversing to SL?
+3. **D1 T02 "very confident" feeling** — process-confidence or "make it back"?
+4. **D1 T03 numbers** — typed vs chart math doesn't reconcile. Confirm broker fills.
+5. **D1 T03 honest motivation** — said "done for the day" after T02, took T03. What was actually in your head?
+6. **MSS knowledge** — read knowledge/01-ict-smc-reference.md sections 2, 3, 14. Explain MSS in your own words. **MANDATORY before next trade.**
+7. **D2 T01 — why short before London Open?** — entered in Frankfurt window (high false-signal rate). Deliberate or impulsive?
 
 ---
 
