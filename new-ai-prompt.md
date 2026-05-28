@@ -28,14 +28,22 @@ Read these files IN ORDER:
 
 | Metric | Value |
 |---|---|
-| Account | $3,000 → $3,023.48 (+$23.48) |
-| Trades | 2 (1W, 1L) |
-| Net R | +1.60R |
-| Win rate | 50% |
-| Avg rubric | 6.63/10 (below 7.0 pass threshold) |
+| Account | $3,000 → $3,045.80 (+$45.80) |
+| Trades | 3 (2W, 1L) |
+| Net R | +3.32R |
+| Win rate | 67% |
+| Avg rubric | **5.75/10 (DECLINING: 7.25 → 6.0 → 4.0)** |
 | Max drawdown | -1.14R |
-| Profit factor | 2.40 |
-| Edge hypothesis | Unproven (need N≥20) |
+| Profit factor | 6.61 |
+| Edge hypothesis | Refined: only valid with full sweep + MSS sequence |
+
+### CRITICAL DAY 1 FINDINGS
+
+1. **Knowledge gap:** trader does not know what MSS is. Has been using CHoCH as trigger.
+2. **Discipline broken:** said "done for the day" after Trade 02, took Trade 03 anyway.
+3. **Lucky-win pattern:** Trade 03 won money but failed process (4.0/10).
+4. **Trades getting worse:** rubric trend declining trade-over-trade.
+5. **Net P&L is masking process decay.**
 
 ---
 
@@ -55,7 +63,9 @@ Read these files IN ORDER:
 1. **Trade #1 stop buffer** — stop was only 3.84 pts (playbook says 15–20 pts). Were you aware it was tight, or calculated differently?
 2. **Trade #2 MFE** — did the trade go into ANY profit before reversing to SL? Even briefly?
 3. **The "very confident" feeling before Trade #2** — genuine process-confidence or "I need to make that back" energy?
-4. **Before screenshots** — no habit yet, or felt rushed/FOMO and skipped?
+4. **Trade #3 numbers** — your typed numbers (entry 4453.46 / SL 4446.19 / TP 4456.36) don't reconcile with the $22.32 win at 0.03 lot. Chart shows entry ~4445.96, TP 4454.10. Pull broker statement and confirm.
+5. **Trade #3 honest motivation** — you said "done for the day" after Trade 02. Then you took Trade 03 anyway and won. What was actually going through your head when you took it? "This setup is too good to skip" or "I want to end the day green"? Be brutally honest — this matters more than the trade.
+6. **MSS knowledge** — read `knowledge/01-ict-smc-reference.md` sections 2, 3, and 14. Then explain MSS back in your own words. This is the missing piece in your trigger logic.
 
 ---
 
@@ -70,16 +80,19 @@ Read these files IN ORDER:
 
 ---
 
-## BEHAVIORAL PATTERNS DETECTED (N=2)
+## BEHAVIORAL PATTERNS DETECTED (N=3)
 
 | Pattern | Count | Status |
 |---|---|---|
 | Full 1m trigger sequence = win | 1 | Trade 01 |
-| Zone-only entry (no trigger) = loss | 1 | Trade 02 — FOMO confirmed |
-| No before screenshot | 2 | Systemic — zero tolerance |
-| Daily loss limit respected | 1 | STRENGTH |
-| Disciplined risk sizing (<0.5%) | 2 | STRENGTH |
-| Healthy post-loss psychology | 1 | STRENGTH |
+| Zone-only entry (no sweep, no MSS) | 2 | T02 (loss), T03 (lucky win) |
+| Knowledge gap: doesn't know MSS | confirmed | T03 — must be fixed |
+| "Done for the day" broken | 1 | T03 — discipline issue |
+| No liquidity sweep before entry | 2 | T02, T03 — model precondition |
+| Stop too tight (<15pt on XAU) | 3 | All trades — won 2/3 by luck |
+| Before screenshots | 1 | T03 — first time, IMPROVEMENT |
+| Disciplined risk sizing (<0.5%) | 3 | All trades — STRENGTH |
+| Healthy post-loss psychology | 1 | T02 — STRENGTH |
 
 ---
 
@@ -171,8 +184,9 @@ journal/
 ├── full-chat-context.md               # Complete session history
 ├── new-ai-prompt.md                   # THIS FILE — AI instructions
 ├── trades/
-│   ├── 20260527-XAUUSD-01.md         # WIN +2.74R (7.25/10)
-│   └── 20260527-XAUUSD-02.md         # LOSS -1.14R (6.0/10)
+│   ├── 20260527-XAUUSD-01.md         # WIN +2.74R (7.25/10) — full process
+│   ├── 20260527-XAUUSD-02.md         # LOSS -1.14R (6.0/10) — FOMO
+│   └── 20260527-XAUUSD-03.md         # WIN +1.72R (4.0/10) — LUCKY (no sweep, no MSS)
 ├── analytics/
 │   ├── ledger.csv                     # 30-column, 2 trades
 │   └── performance.md                 # Rolling metrics
